@@ -1,0 +1,20 @@
+/* 🔥 FIXED CONTENT AREA */
+.content-clamp {
+  min-height: 60px;
+  max-height: 60px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.content-box {
+  height: 65px;        /* fixed space */
+  overflow: hidden;
+}
+/* Hover */
+.news-card {
+  transition: all 0.3s ease;
+}
+
+.news-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}

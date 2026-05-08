@@ -11,7 +11,10 @@ mongoose.connect(process.env.DB_CONNECTION_LINK)
   .then(() => console.log("DB Connected"))
   .catch(err => console.log(err));
 
-app.use(cors());
+app.use(cors({
+  origin: "https://news-portal-plum-rho.vercel.app",
+  credentials: true,
+}));
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);

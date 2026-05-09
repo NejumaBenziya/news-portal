@@ -24,7 +24,7 @@ function AdminDashboard() {
     //  Fetch News
     const fetchNews = async () => {
         try {
-            const res = await API.get("/news");
+            const res = await API.get("/news?admin=true")
             setNews(res.data);
             setLoading(false);
         } catch (err) {

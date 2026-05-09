@@ -2,34 +2,35 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import API from "../api/axios";
 import NewsCard from "../components/NewsCard";
+import { formatDistanceToNow } from "date-fns";
 
 function Home() {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-  API.get("/news?status=published")
-    .then((res) => {
-      const sorted = res.data.sort(
-        (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
-      );
+    API.get("/news?status=published")
+      .then((res) => {
+        const sorted = res.data.sort(
+          (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+        );
 
-      setNews(sorted);
-      setLoading(false);
-    })
-    .catch((err) => {
-      console.log(err);
-      setLoading(false);
-    });
-}, []);
+        setNews(sorted);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  }, []);
   if (loading) {
-  return (
-    <div className="text-center">
-  <div className="spinner-border text-primary mb-3" role="status"></div>
-  <p className="text-muted">Loading latest news...</p>
-</div>
-  );
-}
+    return (
+      <div className="text-center">
+        <div className="spinner-border text-primary mb-3" role="status"></div>
+        <p className="text-muted">Loading latest news...</p>
+      </div>
+    );
+  }
   return (
     <div className="container mt-4">
 
@@ -71,7 +72,12 @@ function Home() {
             <div className="mt-auto d-flex justify-content-between align-items-center">
 
               <small className="text-muted">
-                {new Date(news[0].updatedAt).toLocaleDateString()}
+                {news[0].updatedAt &&
+                  formatDistanceToNow(
+                    new Date(news[0].updatedAt),
+                    { addSuffix: true }
+                  ).replace("about ", "")
+                }
               </small>
 
               <Link

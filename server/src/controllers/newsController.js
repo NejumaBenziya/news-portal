@@ -14,23 +14,41 @@ exports.createNews = async (req, res) => {
 // GET ALL (with status filter)
 exports.getAllNews = async (req, res) => {
   try {
-    const { status } = req.query;
-    
-    const oneDayAgo = new Date();
 
-    oneDayAgo.setHours(
-      oneDayAgo.getHours() - 24
-    );
+    const { status, admin } = req.query;
 
-    const news = await News.find({
-      status: "published",
-      updatedAt: { $gte: oneDayAgo },
-    })
+    let filter = {};
+
+    // PUBLIC USERS
+    if (!admin) {
+
+      const oneDayAgo = new Date();
+
+      oneDayAgo.setHours(
+        oneDayAgo.getHours() - 24
+      );
+
+      filter = {
+        status: "published",
+        updatedAt: { $gte: oneDayAgo },
+      };
+
+    }
+
+    // OPTIONAL STATUS FILTER
+    if (status) {
+      filter.status = status;
+    }
+
+    const news = await News.find(filter)
       .sort({ updatedAt: -1 });
 
     res.json(news);
+
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({
+      error: err.message,
+    });
   }
 };
 

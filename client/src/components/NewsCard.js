@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { formatDistanceToNow } from "date-fns";
 
 function NewsCard({ news }) {
   return (
@@ -35,7 +36,10 @@ function NewsCard({ news }) {
         {/* Footer (always visible) */}
         <div className="mt-auto d-flex justify-content-between align-items-center">
           <small className="text-muted">
-            {new Date(news.updatedAt).toLocaleDateString()}
+            {formatDistanceToNow(
+              new Date(news.updatedAt),
+              { addSuffix: true }
+            ).replace("about ", "")}
           </small>
 
           <Link

@@ -12,7 +12,10 @@ mongoose.connect(process.env.DB_CONNECTION_LINK)
   .catch(err => console.log(err));
 
 app.use(cors({
-  origin: "https://news-portal-plum-rho.vercel.app",
+ origin: [
+      "http://localhost:3000",
+      "https://news-portal-plum-rho.vercel.app",
+    ],
   credentials: true,
 }));
 app.use(express.json());

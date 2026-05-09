@@ -5,19 +5,31 @@ import NewsCard from "../components/NewsCard";
 
 function Home() {
   const [news, setNews] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log(process.env.REACT_APP_API_URL);
-    API.get("/news?status=published")
-      .then((res) => {
-        const sorted = res.data.sort(
-          (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
-        );
-        setNews(sorted);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+  API.get("/news?status=published")
+    .then((res) => {
+      const sorted = res.data.sort(
+        (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+      );
 
+      setNews(sorted);
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.log(err);
+      setLoading(false);
+    });
+}, []);
+  if (loading) {
+  return (
+    <div className="text-center">
+  <div className="spinner-border text-primary mb-3" role="status"></div>
+  <p className="text-muted">Loading latest news...</p>
+</div>
+  );
+}
   return (
     <div className="container mt-4">
 

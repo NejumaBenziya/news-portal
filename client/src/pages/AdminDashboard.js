@@ -5,6 +5,7 @@ function AdminDashboard() {
     const [news, setNews] = useState([]);
     const [editingId, setEditingId] = useState(null);
     const [activeTab, setActiveTab] = useState("all");
+    const [loading, setLoading] = useState(true);
     const formRef = useRef(null);
     const [form, setForm] = useState({
         title: "",
@@ -25,8 +26,10 @@ function AdminDashboard() {
         try {
             const res = await API.get("/news");
             setNews(res.data);
+            setLoading(false);
         } catch (err) {
             console.log(err);
+            setLoading(false);
         }
     };
 
@@ -209,6 +212,18 @@ function AdminDashboard() {
                 </li>
 
             </ul>
+            {loading && <div className="d-flex flex-column justify-content-center align-items-center vh-100">
+
+                <div
+                    className="spinner-border text-primary mb-3"
+                    role="status"
+                ></div>
+
+                <p className="text-muted">
+                    Loading news...
+                </p>
+
+            </div>}
             {/*  News List */}
             <div className="card p-4 shadow">
                 <h4>All News</h4>

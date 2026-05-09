@@ -11,6 +11,7 @@ function Login() {
       const res = await API.post("/auth/login", form);
       localStorage.setItem("token", res.data.token);
       navigate("/admin");
+      
     } catch (err) {
       alert("Login failed");
     }

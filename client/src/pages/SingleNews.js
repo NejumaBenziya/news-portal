@@ -5,19 +5,42 @@ import API from "../api/axios";
 function SingleNews() {
   const { id } = useParams();
   const [news, setNews] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     API.get(`/news/${id}`)
-      .then(res => setNews(res.data))
-      .catch(err => console.log(err));
+      .then(res =>{
+         setNews(res.data)
+        setLoading(false);})
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
   }, [id]);
 
-  if (!news)
-    return (
-      <div className="text-center mt-5">
-        <div className="spinner-border text-primary"></div>
-      </div>
-    );
+ if (loading) {
+  return (
+    <div className="d-flex flex-column justify-content-center align-items-center vh-100">
+
+      <div
+        className="spinner-border text-primary mb-3"
+        role="status"
+      ></div>
+
+      <p className="text-muted">
+        Loading news...
+      </p>
+
+    </div>
+  );
+}
+if (!news) {
+  return (
+    <div className="text-center mt-5">
+      <h4>News not found</h4>
+    </div>
+  );
+}
 
   return (
     <div className="container mt-4">

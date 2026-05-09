@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import AdminDashboard from "./pages/AdminDashboard";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import SearchPage from "./pages/SearchPage";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/category/:name" element={<Category />} />
             <Route path="/news/:id" element={<SingleNews />} />
+            <Route path="/search/:query" element={<SearchPage />} />
             <Route path="/admin/login" element={<Login />} />
             <Route path="/admin" element={<AdminDashboard />} />
           </Routes>

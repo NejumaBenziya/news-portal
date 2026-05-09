@@ -15,9 +15,19 @@ exports.createNews = async (req, res) => {
 exports.getAllNews = async (req, res) => {
   try {
     const { status } = req.query;
-    const filter = status ? { status } : {};
+    
+    const oneDayAgo = new Date();
 
-    const news = await News.find(filter).sort({ createdAt: -1 });
+    oneDayAgo.setHours(
+      oneDayAgo.getHours() - 24
+    );
+
+    const news = await News.find({
+      status: "published",
+      updatedAt: { $gte: oneDayAgo },
+    })
+      .sort({ updatedAt: -1 });
+
     res.json(news);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -31,6 +41,44 @@ exports.getNewsById = async (req, res) => {
     res.json(news);
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+};
+// SEARCH NEWS
+exports.searchNews = async (req, res) => {
+  try {
+
+    const query = req.params.query;
+
+    const news = await News.find({
+      status: "published",
+      $or: [
+        {
+          title: {
+            $regex: query,
+            $options: "i",
+          },
+        },
+        {
+          content: {
+            $regex: query,
+            $options: "i",
+          },
+        },
+        {
+          category: {
+            $regex: query,
+            $options: "i",
+          },
+        },
+      ],
+    }).sort({ updatedAt: -1 });
+
+    res.json(news);
+
+  } catch (err) {
+    res.status(500).json({
+      error: err.message,
+    });
   }
 };
 

@@ -1,67 +1,119 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
 
 function Navbar() {
+  const [search, setSearch] = useState("");
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+
+    if (search.trim()) {
+      navigate(`/search/${search}`);
+      setSearch("");
+    }
+  };
+
+  const categories = [
+    "General",
+    "Tech",
+    "Business",
+    "Sports",
+    "Entertainment",
+    "Politics",
+    "Health",
+  ];
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-3">
-      
-      {/* Logo */}
-      <Link className="navbar-brand fw-bold" to="/">
-        📰 News Portal
-      </Link>
+    <nav className="navbar navbar-dark bg-dark shadow-sm py-3">
+      <div className="container-fluid px-4 d-flex align-items-center justify-content-between flex-nowrap">
 
-      {/* Mobile Toggle */}
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
-
-      {/* Links */}
-      <div className="collapse navbar-collapse" id="navbarNav">
-        
-        <ul className="navbar-nav me-auto">
-
-          <li className="nav-item">
-            <Link className="nav-link" to="/">Home</Link>
-          </li>
-
-          <li className="nav-item">
-            <Link className="nav-link" to="/category/General">General</Link>
-          </li>
-
-          <li className="nav-item">
-            <Link className="nav-link" to="/category/Tech">Tech</Link>
-          </li>
-
-          <li className="nav-item">
-            <Link className="nav-link" to="/category/Business">Business</Link>
-          </li>
-
-          <li className="nav-item">
-            <Link className="nav-link" to="/category/Sports">Sports</Link>
-          </li>
-
-          <li className="nav-item">
-            <Link className="nav-link" to="/category/Entertainment">Entertainment</Link>
-          </li>
-
-          <li className="nav-item">
-            <Link className="nav-link" to="/category/Politics">Politics</Link>
-          </li>
-
-          <li className="nav-item">
-            <Link className="nav-link" to="/category/Health">Health</Link>
-          </li>
-
-        </ul>
-
-        {/* Right side */}
-        <Link className="btn btn-outline-light btn-sm" to="/admin/login">
-          Admin Login
+        {/* Logo */}
+        <Link
+          to="/"
+          className="navbar-brand fw-bold fs-3 text-white me-4"
+        >
+          📰 News Portal
         </Link>
+
+        {/* Categories */}
+        <div className="d-flex align-items-center gap-3 flex-nowrap">
+
+          <Link
+            className={`text-decoration-none fw-semibold ${
+              location.pathname === "/"
+                ? "text-warning"
+                : "text-light"
+            }`}
+            to="/"
+          >
+            Home
+          </Link>
+
+          {categories.map((category) => (
+            <Link
+              key={category}
+              to={`/category/${category}`}
+              className={`text-decoration-none fw-semibold ${
+                location.pathname === `/category/${category}`
+                  ? "text-warning"
+                  : "text-light"
+              }`}
+            >
+              {category}
+            </Link>
+          ))}
+
+        </div>
+
+        {/* Right Side */}
+        <div className="d-flex align-items-center gap-3 ms-4">
+
+          {/* Search */}
+          <form
+            className="d-flex"
+            onSubmit={handleSearch}
+          >
+            <div className="input-group">
+
+              <input
+                type="search"
+                className="form-control border-0 shadow-none"
+                placeholder="Search..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                style={{
+                  borderTopLeftRadius: "30px",
+                  borderBottomLeftRadius: "30px",
+                  width: "180px",
+                }}
+              />
+
+              <button
+                className="btn btn-warning"
+                type="submit"
+                style={{
+                  borderTopRightRadius: "30px",
+                  borderBottomRightRadius: "30px",
+                }}
+              >
+                🔍
+              </button>
+
+            </div>
+          </form>
+
+          {/* Admin */}
+          <Link
+            to="/admin/login"
+            className="btn btn-outline-light rounded-pill px-4 fw-semibold"
+          >
+            Admin
+          </Link>
+
+        </div>
 
       </div>
     </nav>

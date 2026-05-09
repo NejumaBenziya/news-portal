@@ -4,6 +4,7 @@ const {
   createNews,
   getAllNews,
   getNewsById,
+  searchNews,
   updateNews,
   deleteNews,
 } = require("../controllers/newsController");
@@ -17,6 +18,7 @@ router.delete("/:id", auth, deleteNews);
 
 // Public routes
 router.get("/", getAllNews);
+router.get("/search/:query", searchNews);
 router.get("/:id", getNewsById);
 
 module.exports = router;

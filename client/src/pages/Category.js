@@ -9,19 +9,28 @@ function Category() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    API.get("/news")
-      .then((res) => {
-        const filtered = res.data.filter(
-          (n) => n.category === name && n.status === "published"
+  API.get("/news")
+    .then((res) => {
+
+      const filtered = res.data
+        .filter(
+          (n) =>
+            n.category === name &&
+            n.status === "published"
+        )
+        .sort(
+          (a, b) =>
+            new Date(b.updatedAt) - new Date(a.updatedAt)
         );
-        setNews(filtered);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-      });
-  }, [name]);
+
+      setNews(filtered);
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.log(err);
+      setLoading(false);
+    });
+}, [name]);
 
   return (
    

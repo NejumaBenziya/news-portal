@@ -7,6 +7,7 @@ function Home() {
   const [news, setNews] = useState([]);
 
   useEffect(() => {
+    console.log(process.env.REACT_APP_API_URL);
     API.get("/news?status=published")
       .then((res) => {
         const sorted = res.data.sort(

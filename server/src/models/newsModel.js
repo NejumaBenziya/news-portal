@@ -1,53 +1,104 @@
-const mongoose = require('mongoose');
-const newsSchema = new mongoose.Schema(
-  {
-    
-    title: 
-      {
-       type: String,
-      required: [true, "title is required"],
-      },
-    
+const mongoose = require("mongoose");
 
-   
-   content: {
+// =========================
+// News Schema
+// =========================
+
+const newsSchema = new mongoose.Schema(
+
+  {
+
+    // News Title
+    title: {
+
       type: String,
-      required: [true, "content is required"],
+
+      required: [
+        true,
+        "title is required",
+      ],
     },
 
-    category: {
+    // News Content
+    content: {
+
       type: String,
+
+      required: [
+        true,
+        "content is required",
+      ],
+    },
+
+    // News Category
+    category: {
+
+      type: String,
+
       required: [
         true,
         "category is required",
       ],
-       enum: ["General", "Tech","Business","Sports","Entertainment","Politics","Health"],
+
+      // Allowed categories
+      enum: [
+        "General",
+        "Tech",
+        "Business",
+        "Sports",
+        "Entertainment",
+        "Politics",
+        "Health"
+      ],
+
+      // Default category
       default: "General",
     },
 
+    // News Image URL
     image: {
+
       type: String,
-      
     },
 
-    
+    // News Status
     status: {
+
       type: String,
-      required: [true, "status is required"],
-      enum: ["draft", "published","scheduled","in-review"],
+
+      required: [
+        true,
+        "status is required",
+      ],
+
+      // Allowed status values
+      enum: [
+        "draft",
+        "published",
+        "scheduled",
+        "in-review"
+      ],
+
+      // Default status
       default: "draft",
     },
 
-    
-
   },
-  { timestamps: true } // automatically adds createdAt & updatedAt
+
+  // Automatically add createdAt & updatedAt
+  {
+    timestamps: true
+  }
 );
 
+// =========================
+// News Model
+// =========================
 
-/**
- * News model
- */
-const NewsModel = mongoose.model("news", newsSchema)
+const NewsModel = mongoose.model(
+  "news",
+  newsSchema
+);
 
-module.exports = NewsModel
+// Export model
+module.exports = NewsModel;

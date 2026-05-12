@@ -1,20 +1,42 @@
-/* 🔥 FIXED CONTENT AREA */
+/* Fixed content area with text clipping */
 .content-clamp {
+
+  /* Minimum height */
   min-height: 60px;
+
+  /* Maximum visible height */
   max-height: 60px;
+
+  /* Hide extra text */
   overflow: hidden;
+
+  /* Show ellipsis for overflow */
   text-overflow: ellipsis;
 }
+
+/* Fixed height content box */
 .content-box {
-  height: 65px;        /* fixed space */
+
+  /* Fixed content area height */
+  height: 65px;
+
+  /* Hide overflowing content */
   overflow: hidden;
 }
-/* Hover */
+
+/* News card transition effect */
 .news-card {
+
+  /* Smooth hover animation */
   transition: all 0.3s ease;
 }
 
+/* Hover effect for news card */
 .news-card:hover {
+
+  /* Slight upward movement */
   transform: translateY(-5px);
+
+  /* Enhanced shadow on hover */
   box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
